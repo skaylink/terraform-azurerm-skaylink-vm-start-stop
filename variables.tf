@@ -16,38 +16,51 @@
 
 # For questions and contributions please contact info@iq3cloud.com
 
-variable "name" {
+variable "resource_group_name" {
   type        = string
-  description = "The name of the resource group you are deploying"
+  description = "name of resorcegroup. Should be the same as the parrent virtual machine"
 }
 
-variable "location" {
+variable "action_type" {
   type        = string
-  description = "The location of the resource group, defaults to west Europe"
-  default     = "westeurope"
+  description = "The Type of action. must be 'StartVm' or 'StopVm'."
 }
 
-variable "customTag1" {
+variable "vm_name" {
   type        = string
-  description = "the first customTag"
+  description = "The name of the VM to be stopped or started."
 }
 
-variable "customTag2" {
+variable "sp_client_id" {
   type        = string
-  description = "the second customTag"
+  description = "Service principal clientID."
 }
 
-variable "customTag3" {
+variable "sp_client_secret" {
   type        = string
-  description = "the third customTag"
+  description = "Service principal secret value."
 }
 
-variable "customTag4" {
-  type        = string
-  description = "the fourth customTag"
+variable "hours" {
+  type        = list(string)
+  default     = ["12"]
+  description = "Hour when the scheduler should start."
 }
 
-variable "customTag5" {
+variable "minutes" {
+  type        = list(number)
+  default     = [0]
+  description = "Minute of hour when the scheduler should start."
+}
+
+variable "week_days" {
+  type        = list(string)
+  default     = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+  description = "week days when the scheduler should be executed"
+}
+
+variable "time_zone" {
   type        = string
-  description = "the fifth customTag"
+  default     = "W. Europe Standard Time"
+  description = "Time zone. default is 'W. Europe Standard Time'."
 }

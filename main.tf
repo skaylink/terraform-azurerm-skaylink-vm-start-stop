@@ -15,14 +15,40 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 # For questions and contributions please contact info@iq3cloud.com
-resource "azurerm_resource_group" "resourcegroup" {
-  name     = var.name
-  location = var.location
-  tags = {
-    customTag1 = var.customTag1
-    customTag2 = var.customTag2
-    customTag3 = var.customTag3
-    customTag4 = var.customTag4
-    customTag5 = var.customTag5
+
+locals {
+  parameters_body = {
+    actionType = {
+      value = var.action_type
+    }
+    vmName = {
+      value = var.vm_name
+    }
+    clientId = {
+      value = var.sp_client_id
+    }
+    clientSecret = {
+      value = var.sp_client_secret
+    }
+    runHours = {
+      value = var.hours
+    }
+    runMinutes = {
+      value = var.minutes
+    }
+    runWeekDays = {
+      value = var.week_days
+    }
+    timeZone = {
+      value = var.time_zone
+    }
   }
+}
+
+resource "azurerm_resource_group_template_deployment" "logicapp" {
+  name                = "${var.action_type}-deployment"
+  resource_group_name = var.resource_group_name
+  deployment_mode     = "Incremental"
+  parameters_body     = jsonencode(local.parameters_body)
+  template_body       = file("${path.module}/main.json")
 }
